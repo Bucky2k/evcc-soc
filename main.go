@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/andig/evcc/api"
 	"github.com/andig/evcc/util"
 	"github.com/andig/evcc/vehicle"
 )
@@ -53,6 +54,12 @@ func main() {
 	}
 
 	soc, err := v.ChargeState()
+
+	// always close session
+	if v, ok := v.(api.Closer); ok {
+		_ = v.Close()
+	}
+
 	if err != nil {
 		log.Fatal(err)
 	}
