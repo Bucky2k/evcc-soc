@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/andig/evcc/util"
 	"github.com/andig/evcc/vehicle"
 )
 
@@ -14,7 +15,7 @@ func usage() {
 evcc-soc
 
 Usage:
-  evcc-soc vehicle --param value [...]
+  evcc-soc vehicle [--log level] [--param value [...]]
 `)
 }
 
@@ -32,7 +33,11 @@ func main() {
 		if key == "" {
 			key = strings.ToLower(strings.TrimLeft(arg, "-"))
 		} else {
-			args[key] = arg
+			if key == "log" {
+				util.LogLevel(arg, nil)
+			} else {
+				args[key] = arg
+			}
 			key = ""
 		}
 	}
